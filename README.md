@@ -1,13 +1,13 @@
 # autobuy
-Easy to use Telegram gift snipper script
+easy to use telegram gift snipper script
 ### Features
 
-- 🚀 Fast automated gift sniping on Telegram
-- ⚡ Real-time monitoring of gift availability
-- 🔔 Notification system for successful purchases
-- 🛡️ Rate limiting to avoid detection
-- 📊 Detailed logging of all operations
-- 🔧 Easy configuration through environment variables
+- Fast automated gift sniping on Telegram
+- Real-time monitoring of gift availability
+- Notification system for successful purchases
+- Rate limiting to avoid detection
+- Detailed logging of all operations
+- Easy configuration through environment variables
 ### Prerequisites
 Before you begin, ensure you have the following installed:
 
