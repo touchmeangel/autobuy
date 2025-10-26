@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  autobuy:
+    build: 
+      dockerfile: Dockerfile
+    restart: no
+    command: "python main.py"
