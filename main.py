@@ -66,13 +66,6 @@ async def main():
     )
   )
   parser.add_argument(
-    "--supply",
-    type=int,
-    help=(
-      "Only target gifts that have exactly this total available amount/supply"
-    )
-  )
-  parser.add_argument(
     "--min-supply",
     type=int,
     help=(
@@ -146,10 +139,6 @@ async def main():
     logger.warning(Fore.GREEN + Style.DIM + f"* set MAX_SUPPLY={args.max_supply}")
     filters["max_supply"] = args.max_supply
 
-  if args.supply is not None:
-    logger.warning(Fore.GREEN + Style.DIM + f"* set SUPPLY={args.supply}")
-    filters["supply"] = args.supply
-  
   if args.star_amount is not None:
     logger.warning(Fore.GREEN + Style.DIM + f"* set STAR_AMOUNT={args.star_amount} (skipping AMOUNT)")
 
@@ -189,9 +178,6 @@ async def main():
 
         if filters.get("max_price") is not None:
           gifts = filter(lambda g: g.price <= filters.get("max_price"), gifts)
-
-        if filters.get("supply") is not None:
-          gifts = filter(lambda g: g.total_amount == filters.get("supply"), gifts)
 
         if filters.get("min_supply") is not None:
           gifts = filter(lambda g: g.total_amount >= filters.get("min_supply"), gifts)
