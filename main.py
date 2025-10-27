@@ -2,7 +2,7 @@ from colorama import init, Fore, Style
 from config import api_hash, api_id, logger_chat_id, logger_token
 from pyrogram.errors.exceptions import StargiftUsageLimited
 from pyrogram.enums import ClientPlatform
-from pyrogram.errors import RPCError, SessionExpired, AuthKeyInvalid
+from pyrogram.errors import RPCError, SessionExpired, AuthKeyInvalid, AuthKeyUnregistered
 from pyrogram.types import Gift
 from telegram import TGLogger
 from pyrogram import Client
@@ -145,6 +145,10 @@ async def main():
 
   try:
     await app.connect()
+    me = await app.get_me()
+  except AuthKeyUnregistered:
+    logger.warning(Fore.RED + f"session expired")
+    return
   except AuthKeyInvalid:
     logger.warning(Fore.RED + f"session expired")
     return
@@ -157,7 +161,6 @@ async def main():
     return
   
   try:
-    me = await app.get_me()
     star_balance = await app.get_stars_balance()
     logger.warning(Fore.GREEN + "\n# DEV TG: @touchmeh")
     logger.warning(Fore.GREEN + Style.DIM + f"* Bot is connected to | {me.phone_number}:{me.username} |: {star_balance} ⭐...\n")
