@@ -1,7 +1,8 @@
 from colorama import init, Fore, Style
 from config import api_hash, api_id, logger_chat_id, logger_token
 from pyrogram.errors.exceptions import StargiftUsageLimited
-from pyrogram.errors import RPCError
+from pyrogram.enums import ClientPlatform
+from pyrogram.errors import RPCError, SessionExpired, AuthKeyInvalid
 from pyrogram.types import Gift
 from telegram import TGLogger
 from pyrogram import Client
@@ -16,7 +17,7 @@ workdir = os.path.join(os.getcwd(), "sessions")
 os.makedirs(workdir, exist_ok=True)
 init(autoreset=True)
 
-app = Client("session", api_id=api_id, api_hash=api_hash, workdir=workdir)
+app = Client("session", device_model="@touchmeh", client_platform=ClientPlatform.ANDROID, app_version="Android 11.14.1", api_id=api_id, api_hash=api_hash, workdir=workdir)
 logger = logging.getLogger(__name__)
 tg_logger = TGLogger(logger_token, logger_chat_id)
 async def main():
@@ -142,7 +143,20 @@ async def main():
   if args.star_amount is not None:
     logger.warning(Fore.GREEN + Style.DIM + f"* set STAR_AMOUNT={args.star_amount} (skipping AMOUNT)")
 
-  async with app:
+  try:
+    await app.connect()
+  except AuthKeyInvalid:
+    logger.warning(Fore.RED + f"session expired")
+    return
+  except SessionExpired:
+    logger.warning(Fore.RED + f"session expired")
+    return
+  except Exception as e:
+    tb_str = traceback.format_exc()
+    logger.warning(Fore.RED + f"failed to connect using session: {e} / {tb_str}")
+    return
+  
+  try:
     me = await app.get_me()
     star_balance = await app.get_stars_balance()
     logger.warning(Fore.GREEN + Style.DIM + "dev TG: @touchmeh")
@@ -245,16 +259,19 @@ async def main():
           await asyncio.gather(*tasks)
         except Exception as e:
           tb_str = traceback.format_exc()
-          logger.error(f"err: {e} / {tb_str}")
+          logger.error(Fore.RED + f"err: {e} / {tb_str}")
         return
-      except Exception as e:
-        tb_str = traceback.format_exc()
-        logger.error(f"err: {e} / {tb_str}")
       except (OSError, RPCError) as e:
-        print(f"[WARN] Connection error: {e}, reconnecting...")
+        logger.warning(Fore.YELLOW + f"[WARN] Connection error: {e}, reconnecting...")
         await app.disconnect()
         await asyncio.sleep(2)
         await app.connect()
+  except Exception as e:
+    tb_str = traceback.format_exc()
+    logger.error(f"unhandled error: {e} / {tb_str}")
+    return
+  finally:
+    await app.disconnect()
 
 async def buy_gift(app: Client, receiver_id: int, gift: Gift, amount: int) -> int:
   i = 0   
