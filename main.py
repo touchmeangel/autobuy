@@ -159,7 +159,7 @@ async def main():
   try:
     me = await app.get_me()
     star_balance = await app.get_stars_balance()
-    logger.warning(Fore.GREEN + Style.DIM + "dev TG: @touchmeh")
+    logger.warning(Fore.GREEN + "\n# DEV TG: @touchmeh")
     logger.warning(Fore.GREEN + Style.DIM + f"* Bot is connected to | {me.phone_number}:{me.username} |: {star_balance} ⭐...\n")
 
     if args.star_amount is not None and args.star_amount > star_balance:
