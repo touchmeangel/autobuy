@@ -1,8 +1,9 @@
-# autobuy
-easy to use telegram gift snipper script
+# Telegram Auto-Buy/Gift Snipper Bot
+A lightweight and flexible Telegram userbot for automated purchase of gifts.
 ### Features
 
 - Fast automated gift sniping on Telegram
+- <b>Userbot-driven flow</b> Authenticate via your API_ID, API_HASH, and either .session file or session string for easy setup.
 - Real-time monitoring of gift availability
 - Notification system for successful purchases
 - Rate limiting to avoid detection
@@ -44,5 +45,14 @@ Or using Python
   pip install -r requirements.txt
   python main.py --check-every 4 --max-supply 100000 --star-amount 5000
 ```
+### Optional Flags
+- --id: Target a specific gift by unique ID.
+- --title: Match a gift’s title exactly (case-sensitive).
+- -n / --nullable-title: Allow gifts without a title to pass filter if no title is present.
+- --min-price, --max-price: Filter by exact or range of prices (in TGStars).
+- --min-supply, --max-supply: Filter by supply range
+- --total-amount: Match listings with a specific total supply.
+- --check-every: Polling interval in seconds (defaults to 60 s).
+- --amount: Number of gifts to attempt to buy on match (defaults to 1).
 ### Contribution
 Contributions are welcome! Please feel free to submit a Pull Request.
