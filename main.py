@@ -17,7 +17,7 @@ workdir = os.path.join(os.getcwd(), "sessions")
 os.makedirs(workdir, exist_ok=True)
 init(autoreset=True)
 
-app = Client("session", device_model="@touchmeh", client_platform=ClientPlatform.ANDROID, app_version="Android 11.14.1", api_id=api_id, api_hash=api_hash, workdir=workdir)
+app = Client("session", device_model="Gift Snipper @touchmeh", client_platform=ClientPlatform.ANDROID, app_version="Android 11.14.1", api_id=api_id, api_hash=api_hash, workdir=workdir)
 logger = logging.getLogger(__name__)
 tg_logger = TGLogger(logger_token, logger_chat_id)
 async def main():
@@ -144,8 +144,11 @@ async def main():
     logger.warning(Fore.GREEN + Style.DIM + f"* set STAR_AMOUNT={args.star_amount} (skipping AMOUNT)")
 
   try:
-    await app.connect()
-    me = await app.get_me()
+    is_authorized = await app.connect()
+    if not is_authorized:
+      me = await app.authorize()
+    else:    
+      me = await app.get_me()
   except AuthKeyUnregistered:
     logger.warning(Fore.RED + f"session expired")
     return
@@ -156,8 +159,7 @@ async def main():
     logger.warning(Fore.RED + f"session expired")
     return
   except Exception as e:
-    tb_str = traceback.format_exc()
-    logger.warning(Fore.RED + f"failed to connect using session: {e} / {tb_str}")
+    logger.warning(Fore.RED + f"failed to connect: {e}")
     return
   
   try:
@@ -205,7 +207,7 @@ async def main():
         gifts = list(gifts)
         entries = len(gifts)
         if entries <= 0:
-          logger.warning(Fore.RED + Style.DIM + f"Nothing found, waiting {args.check_every} secs...")
+          logger.warning(Fore.RED + Style.DIM + f"No new gifts, waiting {args.check_every} secs...")
           await asyncio.sleep(args.check_every)
           continue
         
