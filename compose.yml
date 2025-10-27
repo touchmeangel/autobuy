@@ -1,0 +1,6 @@
+services:
+  autobuy:
+    image: touchmeangel/autobuy:latest
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./sessions:/app/sessions:rw
