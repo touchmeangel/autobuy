@@ -38,7 +38,7 @@ Before you begin, ensure you have the following installed:
 ```
 ### Usage
 ```bash
-  docker run --name autobuy -v $(pwd)/.env:/app/autobuy/.env:ro -v $(pwd)/sessions:/app/autobuy/sessions:rw -it touchmeangel/autobuy:latest python main.py --check-every 4 --max-supply 100000 --star-amount 5000
+  docker run --name autobuy -v $(pwd)/.env:/app/.env:ro -v $(pwd)/sessions:/app/sessions:rw -it touchmeangel/autobuy:latest python main.py --check-every 4 --max-supply 100000 --star-amount 5000
 ```
 Or using Python
 ```bash
