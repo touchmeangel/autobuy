@@ -285,7 +285,10 @@ async def buy_gift(app: Client, receiver_id: int, gift: Gift, amount: int) -> in
       logger.error(Fore.RED + f"Gift is sold out")
       return i
     except Exception as e:
-      logger.error(f"send_gift err: {e}")
+      if "BALANCE_TOO_LOW" in str(e.value):
+        logger.error(Fore.RED + "Insufficient balance")
+        return i
+      logger.error(Fore.RED + f"send_gift err: {e}")
       return i
     
     i += 1
