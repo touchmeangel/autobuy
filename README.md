@@ -26,7 +26,7 @@ Before you begin, ensure you have the following installed:
 ### Installation
 1. Clone the repository
 ```bash
-   git clone https://github.com/yourusername/autobuy.git
+   git clone https://github.com/touchmeangel/autobuy.git
    cd autobuy
 ```
 2. Set up configuration. Create a .env file in the root directory:
