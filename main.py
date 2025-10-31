@@ -10,8 +10,8 @@ import traceback
 import argparse
 import asyncio
 import logging
+import random
 import math
-import os
 
 init(autoreset=True)
 
@@ -87,6 +87,13 @@ async def main():
       "Poll for new gifts every N seconds "
       "(default: %(default)s)"
     )
+  )
+  parser.add_argument(
+    "--max-check-every",
+    type=int,
+    default=None,
+    metavar="SECS",
+    help="Poll for new gifts every N seconds at maximum (default: %(default)s)"
   )
   parser.add_argument(
     "--star-amount",
@@ -205,8 +212,12 @@ async def main():
         gifts = list(gifts)
         entries = len(gifts)
         if entries <= 0:
-          logger.warning(Fore.RED + Style.DIM + f"No new gifts, waiting {args.check_every} secs...")
-          await asyncio.sleep(args.check_every)
+          if args.max_check_every is None:
+            wait = args.check_every
+          else:
+            wait = random.uniform(args.check_every, args.max_check_every)
+          logger.warning(Fore.RED + Style.DIM + f"No new gifts, waiting {wait} secs...")
+          await asyncio.sleep(wait)
           continue
         
         if args.star_amount is None:
