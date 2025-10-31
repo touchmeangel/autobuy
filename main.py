@@ -259,6 +259,7 @@ async def main():
           return
 
         tasks = []
+        bought_gift_count = 0
         for gift in gifts:
           if gift.price > remaining_balance:
             continue
@@ -268,7 +269,7 @@ async def main():
           if args.receiver is None:
             receiver = me.id
           amount_succeeded = await buy_gift(app, receiver, gift, a)
-
+          bought_gift_count += amount_succeeded
           total_amount = gift.price * amount_succeeded
           remaining_balance -= total_amount
           t = f" \"{gift.raw.title}\"" if gift.raw.title is not None else ""
@@ -289,6 +290,15 @@ async def main():
 
           tasks.append(asyncio.create_task(send(gift, message)))
 
+        if bought_gift_count == 0:
+          if args.max_check_every is None:
+            wait = args.check_every
+          else:
+            wait = random.uniform(args.check_every, args.max_check_every)
+          logger.warning(Fore.RED + Style.DIM + f"No new gifts, waiting {wait} secs...")
+          await asyncio.sleep(wait)
+          continue
+        
         try:
           await asyncio.gather(*tasks)
         except Exception as e:
