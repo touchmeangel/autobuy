@@ -96,6 +96,17 @@ async def main():
     help="Poll for new gifts every N seconds at maximum (default: %(default)s)"
   )
   parser.add_argument(
+    "--receiver",
+    dest="receiver",
+    metavar="ID",
+    default=None,
+    type=int,
+    help=(
+      "Telegram ID where you want to send gifts "
+      "(me.id by default)"
+    )
+  )
+  parser.add_argument(
     "--star-amount",
     dest="star_amount",
     metavar="STARS",
@@ -222,7 +233,10 @@ async def main():
         
         if args.star_amount is None:
           gift = gifts[0]
-          amount_succeeded = await buy_gift(app, me.id, gift, args.amount)
+          receiver = args.receiver
+          if args.receiver is None:
+            receiver = me.id
+          amount_succeeded = await buy_gift(app, receiver, gift, args.amount)
 
           total_amount = gift.price * amount_succeeded
           t = f" \"{gift.raw.title}\"" if gift.raw.title is not None else ""
@@ -247,7 +261,10 @@ async def main():
             continue
             
           a = math.floor(remaining_balance / gift.price)
-          amount_succeeded = await buy_gift(app, me.id, gift, a)
+          receiver = args.receiver
+          if args.receiver is None:
+            receiver = me.id
+          amount_succeeded = await buy_gift(app, receiver, gift, a)
 
           total_amount = gift.price * amount_succeeded
           remaining_balance -= total_amount
