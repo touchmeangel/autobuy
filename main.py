@@ -14,7 +14,7 @@ import random
 import math
 import os
 
-workdir = os.path.join(os.getcwd(), "sessions")
+workdir = os.path.join(os.getcwd(), "data")
 os.makedirs(workdir, exist_ok=True)
 init(autoreset=True)
 
@@ -294,6 +294,15 @@ async def main():
         except Exception as e:
           tb_str = traceback.format_exc()
           logger.error(Fore.RED + f"err: {e} / {tb_str}")
+        return
+      except AuthKeyUnregistered:
+        logger.warning(Fore.RED + f"session expired")
+        return
+      except AuthKeyInvalid:
+        logger.warning(Fore.RED + f"session expired")
+        return
+      except SessionExpired:
+        logger.warning(Fore.RED + f"session expired")
         return
       except (OSError, RPCError) as e:
         logger.warning(Fore.YELLOW + f"[WARN] Connection error: {e}, reconnecting...")
