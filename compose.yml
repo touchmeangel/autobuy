@@ -3,7 +3,7 @@ services:
     image: touchmeangel/autobuy:latest
     volumes:
       - ./.env:/app/.env:ro
-      - session-data:/app/session.session
+      - session-data:/app/data:rw
 
 volumes:
   session-data:
