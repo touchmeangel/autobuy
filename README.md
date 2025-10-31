@@ -53,6 +53,7 @@ Or using Python
 - --min-supply, --max-supply: Filter by supply range
 - --total-amount: Match listings with a specific total supply.
 - --check-every: Polling interval in seconds (defaults to 60 s).
+- --max-check-every: Maximum polling interval in seconds to imitate human behaviour.
 - --amount: Number of gifts to attempt to buy on match (defaults to 1).
 ### Contribution
 Contributions are welcome! Please feel free to submit a Pull Request.
