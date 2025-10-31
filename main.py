@@ -13,11 +13,9 @@ import logging
 import math
 import os
 
-workdir = os.path.join(os.getcwd(), "sessions")
-os.makedirs(workdir, exist_ok=True)
 init(autoreset=True)
 
-app = Client("session", device_model="Gift Snipper @touchmeh", client_platform=ClientPlatform.ANDROID, app_version="Android 11.14.1", api_id=api_id, api_hash=api_hash, workdir=workdir)
+app = Client("session", device_model="Gift Snipper @touchmeh", client_platform=ClientPlatform.ANDROID, app_version="Android 11.14.1", api_id=api_id, api_hash=api_hash)
 logger = logging.getLogger(__name__)
 tg_logger = TGLogger(logger_token, logger_chat_id)
 async def main():
