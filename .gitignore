@@ -204,3 +204,4 @@ __marimo__/
 cache/*.tgs
 unknown_errors.txt
 data/*.session
+test.py
