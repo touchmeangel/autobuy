@@ -280,7 +280,7 @@ async def main():
             f"ID: {gift.id}\n"
             f"TITLE: {gift.raw.title or 'untitled'}\n"
             f"PRICE: {gift.price} stars\n"
-            f"supply: {gift.total_amount or 'unlimited'}"
+            f"SUPPLY: {gift.total_amount or 'unlimited'}"
             f"</span>"
           )
 
