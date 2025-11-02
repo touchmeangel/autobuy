@@ -295,7 +295,7 @@ async def main():
             wait = args.check_every
           else:
             wait = random.uniform(args.check_every, args.max_check_every)
-          logger.warning(Fore.RED + Style.DIM + f"No new gifts, waiting {wait} secs...")
+          logger.warning(Fore.GREEN + Style.DIM + f"Gifts released but balance is too low, waiting {wait} secs...")
           await asyncio.sleep(wait)
           continue
         
